@@ -1,8 +1,52 @@
 use v6.c;
+
 use HTTP::UserAgent;
 use XML::Class;
+use URI::Template;
 
 class Monitor::Monit {
+
+    has Str  $.host      =   'localhost';
+    has Int  $.port      =   2812;
+    has Bool $.secure    =   False;
+    has Str  $.username  =   'admin';
+    has Str  $.password  =   'monit';
+
+    class UserAgent is HTTP::UserAgent {
+        has Str  $.host      =   'localhost';
+        has Int  $.port      =   2812;
+        has Bool $.secure    =   False;
+        has Str  $.username  =   'admin';
+        has Str  $.password  =   'monit';
+
+        has Str $!base-url;
+
+        method base-url() returns Str {
+            if not $!base-url.defined {
+                $!base-url = 'http' ~ ($!secure ?? 's' !! '') ~ '://' ~ $!host ~ ':' ~ $!port.Str ~ '{/path*}{?params*}';
+            }
+            $!base-url;
+        }
+
+        has URI::Template $!base-template;
+
+        method base-template() returns URI::Template handles <process> {
+            if not $!base-template.defined {
+                $!base-template = URI::Template.new(template => self.base-url);
+            }
+            $!base-template;
+        }
+
+    }
+
+    has UserAgent $.ua;
+
+    method ua() returns UserAgent {
+        if not $!ua.defined {
+            $!ua = UserAgent.new(:$!host, :$!port, :$!secure, :$!username, :$!password);
+        }
+        $!ua;
+    }
 
     enum ServiceType <Filesystem Directory File Process Host System Fifo State>;
 
