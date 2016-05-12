@@ -12,12 +12,20 @@ class Monitor::Monit {
     has Str  $.username  =   'admin';
     has Str  $.password  =   'monit';
 
+    role MonitResponse {
+
+    }
+
     class UserAgent is HTTP::UserAgent {
+        use HTTP::Request::Common;
+
         has Str  $.host      =   'localhost';
         has Int  $.port      =   2812;
         has Bool $.secure    =   False;
         has Str  $.username  =   'admin';
         has Str  $.password  =   'monit';
+
+        has %!default-headers;
 
         has Str $!base-url;
 
@@ -35,6 +43,26 @@ class Monitor::Monit {
                 $!base-template = URI::Template.new(template => self.base-url);
             }
             $!base-template;
+        }
+
+
+        proto method get(|c) { * }
+
+        multi method get(:$path!, :$params, *%headers) returns MonitResponse {
+            self.request(GET(self.process(:$path, :$params), |%!default-headers, |%headers)) but MonitResponse;
+        }
+
+        proto method post(|c) { * }
+
+        multi method post(:$path!, :$params, Str :$content, :%form, *%headers) returns MonitResponse {
+            if %form {
+                # Need to force this here
+                my %h = Content-Type => 'application/x-www-form-urlencoded', content-type => 'application/x-www-form-urlencoded';
+                self.request(POST(self.process(:$path, :$params), %form, |%!default-headers, |%headers, |%h)) but MonitResponse;
+            }
+            else {
+                self.request(POST(self.process(:$path, :$params), :$content, |%!default-headers, |%headers)) but MonitResponse;
+            }
         }
 
     }
