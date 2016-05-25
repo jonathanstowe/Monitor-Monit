@@ -29,6 +29,7 @@ class Monitor::Monit {
 
         has Str $!base-url;
 
+
         method base-url() returns Str {
             if not $!base-url.defined {
                 $!base-url = 'http' ~ ($!secure ?? 's' !! '') ~ '://' ~ $!host ~ ':' ~ $!port.Str ~ '{/path*}{?params*}';
@@ -69,9 +70,10 @@ class Monitor::Monit {
 
     has UserAgent $.ua;
 
-    method ua() returns UserAgent {
+    method ua() returns UserAgent handles <get put post> {
         if not $!ua.defined {
             $!ua = UserAgent.new(:$!host, :$!port, :$!secure, :$!username, :$!password);
+            $!ua.auth($!username, $!password);
         }
         $!ua;
     }
@@ -185,6 +187,34 @@ class Monitor::Monit {
         has Platform    $.platform;
         has Service     @.service;
 
+    }
+
+    role ServiceWrapper[UserAgent $ua] {
+        has UserAgent $!ua handles <get put post> = $ua;
+    }
+
+    class X::Monit::HTTP is Exception {
+        has $.code is required;
+        has $.status-line is required;
+
+        method message() {
+            "HTTP request failed : { $!code } {$!status-line}";
+        }
+    }
+
+    method status() returns Status {
+        my Status $status;
+
+        if my $resp = self.get(path => ['_status'], params => format => 'xml') {
+            if $resp.is-success {
+                $status = Status.from-xml($resp.content);
+                $= $_ does ServiceWrapper[$!ua] for $status.service;
+            }
+            else {
+                X::HTTP.new(code => $resp.code, status-line => $resp.status-line).throw;
+            }
+        }
+        $status;
     }
 
 
