@@ -189,9 +189,7 @@ class Monitor::Monit {
 
     }
 
-    role ServiceWrapper[UserAgent $ua] {
-        has UserAgent $!ua handles <get put post> = $ua;
-    }
+    enum Action ( Stop => 'stop', Start => 'start', Restart => 'restart', Monitor => 'monitor', Unmonitor => 'unmonitor');
 
     class X::Monit::HTTP is Exception {
         has $.code is required;
@@ -201,6 +199,36 @@ class Monitor::Monit {
             "HTTP request failed : { $!code } {$!status-line}";
         }
     }
+
+    role ServiceWrapper[UserAgent $ua] {
+        has UserAgent $!ua handles <get put post> = $ua;
+
+        method command(Action $action) returns Bool {
+            my Bool $rc = False;
+            my %form = action => $action.Str;
+            if my $resp = self.post(path => [ self.name ], :%form  ) {
+                $rc = $resp.is-success;
+            }
+            $rc;
+        }
+
+        method stop() {
+            self.command(Stop);
+        }
+        method start() {
+            self.command(Start);
+        }
+        method restart() {
+            self.command(Restart);
+        }
+        method monitor() {
+            self.command(Monitor);
+        }
+        method unmonitor() {
+            self.command(Unmonitor);
+        }
+    }
+
 
     method status() returns Status {
         my Status $status;
