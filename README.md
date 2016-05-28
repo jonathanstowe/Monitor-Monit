@@ -20,6 +20,6 @@ This provides a mechanism to interact with its http api.
 
 This is free software.
 
-Please see the LICENSE file in this directory.
+Please see the [LICENCE](LICENCE) file in this directory.
 
 © Jonathan Stowe 2016
