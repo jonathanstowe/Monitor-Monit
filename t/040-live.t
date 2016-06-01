@@ -33,6 +33,7 @@ if check-socket($port, $host) {
         }
     }
 
+    is $mon.service.elems, $status.service.elems, "delegate service is the same";
 }
 else {
     plan 1;

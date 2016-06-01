@@ -230,7 +230,7 @@ class Monitor::Monit {
     }
 
 
-    method status() returns Status {
+    method status() returns Status handles <service> {
         my Status $status;
 
         if my $resp = self.get(path => ['_status'], params => format => 'xml') {
