@@ -113,6 +113,14 @@ class Monitor::Monit {
         }
 
         class Service does XML::Class[xml-element => 'service'] {
+
+            my @status-names = ("Accessible", "Accessible", "Accessible", "Running", "Online with all services", "Running", "Accessible", "Status ok", "UP");
+
+            # TODO: Calculate the correct "failed" string from status-hint
+            method status-name() returns Str {
+                self.status == 0 ?? @status-names[self.type] !! 'Failed';
+            }
+
             class Memory does XML::Class[xml-element => 'memory'] {
                 has Num $.percent           is xml-element;
                 has Num $.percent-total     is xml-element('percenttotal');

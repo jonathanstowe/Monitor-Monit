@@ -31,6 +31,7 @@ if check-socket($port, $host) {
                 ok $service.restart, "looks good";
             }, "restart ok";
         }
+        ok $service.status-name.defined, "looks like the service is { $service.status-name }";
     }
 
     is $mon.service.elems, $status.service.elems, "delegate service is the same";
