@@ -1,5 +1,39 @@
 use v6.c;
 
+=begin pod
+
+=head1 NAME
+
+Monitor::Monit - Provide an interface to the monit monitoring daemon
+
+=head1 SYNOPSIS
+
+=begin code
+
+use Monitor::Monit;
+
+# use default settings
+my $mon = Monitor::Monit.new;
+
+for $mon.service -> $service {
+	say $service.name, " is ", $sevice.status-name;
+}
+
+=end code
+
+=head1 DESCRIPTION
+
+Monit is a lightweight, relatively simple and widely used system
+and application monitoring service.
+
+This provides a mechanism to interact with its http api.
+
+
+=head1 METHODS
+
+=end pod
+
+
 use HTTP::UserAgent;
 use XML::Class;
 use URI::Template;
