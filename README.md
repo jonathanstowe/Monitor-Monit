@@ -33,6 +33,10 @@ The tests will attempt to connect to a monit daemon on the local host
 with the default port and credentials, if there is no connection then
 the online tests will be skipped.
 
+By default the monit daemon will be configured to only listen for local
+connections on the loopback interface, if you wish to work with a remote
+monit daemon you may need to alter the monit configuration accordingly.
+
 You can provide the details for the running monit daemon you want to test
 with by setting some environment variables before running the tests:
 
