@@ -31,6 +31,19 @@ This provides a mechanism to interact with its http api.
 
 =head1 METHODS
 
+=head2 method new
+
+    method new(Str :$host = 'localhost', Int :$port = 2812, Str :$username = 'admin', Str :$password = 'monit', Bool :$secure = False);
+
+
+=head2 method status
+
+    method status() returns Status
+
+=head2 method service
+
+    method service()
+
 =end pod
 
 
