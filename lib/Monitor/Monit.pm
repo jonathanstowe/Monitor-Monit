@@ -89,29 +89,63 @@ the parameters of the C<monit> daemon.
 
 =head2 Monitor::Monit::Status::Service
 
+Provide the detail of a monitored service.
+
 =head3 method command
 
-        method command(Action $action) returns Bool 
+    method command(Action $action) returns Bool 
+
+Request the action specified by C<$action> on the service.
+Returns a C<Bool> to indicate success or otherwise of the action.
+
+The actions are specified by the C<enum> :
+
+=item Stop
+
+=item Start
+
+=item Restart
+
+=item Monitor
+
+=item Unmonitor
+
+For convenience each action is expressed as a method, described below.
 
 =head3 method stop
 
-        method stop()
+    method stop() returns Bool
+
+Stop the service if it is started.  This depends on there being a 
+stop command configured in the configuration for the service.
 
 =head3 method start
 
-        method start()
+    method start() returns Bool
+
+Start the service if it is stopped.  This depends on there being a 
+start command configured in the configuration for the service.
 
 =head3 method restart
 
-        method restart()
+    method restart() returns Bool
+
+Restart the service, either by calling the configured restart command
+or by calling the stop command followed by the start command. It may
+fail if none of those are defined.
 
 =head3 method monitor
 
-        method monitor()
+    method monitor() returns Bool
+
+Resume monitoring the service if it had been previously un-monitored.
 
 =head3 method unmonitor
 
-        method unmonitor()
+    method unmonitor() returns Bool
+
+Turn off monitoring for the service (assuming it was being monitored.
+This will turn off any alerts and auto restart that may be configured.
 
 =head3 attribute type
 
