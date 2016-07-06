@@ -35,14 +35,164 @@ This provides a mechanism to interact with its http api.
 
     method new(Str :$host = 'localhost', Int :$port = 2812, Str :$username = 'admin', Str :$password = 'monit', Bool :$secure = False);
 
+The constructor for the class, the parameters provide sensible defaults
+that should work out of the box for most installations.  By default the
+C<monit> daemon will only listen for connections on the loopback network
+device so if you intend to interact with a daemon on another C<host> you
+may need to alter the configuration of the daemon.
+
+If you are uncertain of the appropriate values for any of the parameters
+you should check the configuration of the monit daemon or ask a
+system administrator.
+
 
 =head2 method status
 
-    method status() returns Status
+    method status() returns Monitor::Monit::Status
+
+This requests the entire status as reported by the daemon returning a
+L<Monitor::Monit::Status|#Monitor::Monit::Status> object. This conprises details of each
+monitored service, the platform that the daemon is running on and
+the daemon itself.  For convenience these are available as 
+L<service|#method_service>, L<platform|#method_platform> and L<server|#method_server> described below.
 
 =head2 method service
 
-    method service()
+    method service() returns Array[Monitor::Monit::Status::Service]
+
+This returns a list of L<Monitor::Monit::Status::Service|#Monitor::Monit::Status::Service> describing
+each monitored service and their status.
+
+=head2 method platform
+
+    method platform() returns Monitor::Monit::Status::Platform
+
+This returns a L<Monitor::Monit::Status::Platform|#Monitor::Monit::Status::Platform> object that describes
+the physical host that the daemon is running on.
+
+=head2 method server
+
+    method server() returns Monitor::Monit::Status::Server
+
+This returns a L<Monitor::Monit::Status::Server|#Monitor::Monit::Status::Server> object that describes
+the parameters of the C<monit> daemon.
+
+=head1 TYPES
+
+=head2 Monitor::Monit::Status
+
+=head3 attribute server
+
+=head3 attribute platform
+
+=head3 attribute service
+
+=head2 Monitor::Monit::Status::Service
+
+=head3 method command
+
+        method command(Action $action) returns Bool 
+
+=head3 method stop
+
+        method stop()
+
+=head3 method start
+
+        method start()
+
+=head3 method restart
+
+        method restart()
+
+=head3 method monitor
+
+        method monitor()
+
+=head3 method unmonitor
+
+        method unmonitor()
+
+=head3 attribute type
+
+=head3 attribute name
+
+=head3 attribute collected
+
+=head3 attribute collected-usec
+
+=head3 attribute status
+
+=head3 attribute status-hint
+
+=head3 attribute monitor
+
+=head3 attribute monitormode
+
+=head3 attribute pendingaction
+
+=head3 attribute pid
+
+=head3 attribute ppid
+
+=head3 attribute uid
+
+=head3 attribute euid
+
+=head3 attribute gid
+
+=head3 attribute uptime
+
+=head3 attribute children
+
+=head3 attribute memory
+
+=head3 attribute cpu
+
+=head3 attribute port
+
+=head3 attribute unix
+
+=head3 attribute system
+
+=head3 method status-name
+
+    method status-name ( --> Str)
+
+
+=head2 Monitor::Monit::Status::Platform
+
+=head3 attribute name
+
+=head3 attribute version
+
+=head3 attribute machine
+
+=head3 attribute cpu
+
+=head3 attribute memory
+
+=head3 attribute swap
+
+=head2 Monitor::Monit::Status::Server
+
+=head3 attribute id
+
+=head3 attribute incarnation
+
+=head3 attribute version
+
+=head3 attribute uptime
+
+=head3 attribute poll
+
+=head3 attribute startdelay
+
+=head3 attribute localhostname
+
+=head3 attribute controlfile
+
+=head3 attribute httpd
 
 =end pod
 
@@ -285,7 +435,7 @@ class Monitor::Monit {
     }
 
 
-    method status() returns Status handles <service> {
+    method status() returns Status handles <service platform server> {
         my Status $status;
 
         if my $resp = self.get(path => ['_status'], params => format => 'xml') {
