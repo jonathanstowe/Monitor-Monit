@@ -50,32 +50,36 @@ system administrator.
 
     method status() returns Monitor::Monit::Status
 
-This requests the entire status as reported by the daemon returning a
-L<Monitor::Monit::Status|#Monitor::Monit::Status> object. This conprises details of each
-monitored service, the platform that the daemon is running on and
-the daemon itself.  For convenience these are available as 
-L<service|#method_service>, L<platform|#method_platform> and L<server|#method_server> described below.
+This requests the entire status as reported by the daemon returning
+a L<Monitor::Monit::Status|#Monitor::Monit::Status> object. This
+conprises details of each monitored service, the platform that the
+daemon is running on and the daemon itself.  For convenience these are
+available as L<service|#method_service>, L<platform|#method_platform>
+and L<server|#method_server> described below.
 
 =head2 method service
 
     method service() returns Array[Monitor::Monit::Status::Service]
 
-This returns a list of L<Monitor::Monit::Status::Service|#Monitor::Monit::Status::Service> describing
-each monitored service and their status.
+This returns a list of
+L<Monitor::Monit::Status::Service|#Monitor::Monit::Status::Service>
+describing each monitored service and their status.
 
 =head2 method platform
 
     method platform() returns Monitor::Monit::Status::Platform
 
-This returns a L<Monitor::Monit::Status::Platform|#Monitor::Monit::Status::Platform> object that describes
-the physical host that the daemon is running on.
+This returns a
+L<Monitor::Monit::Status::Platform|#Monitor::Monit::Status::Platform>
+object that describes the physical host that the daemon is running on.
 
 =head2 method server
 
     method server() returns Monitor::Monit::Status::Server
 
-This returns a L<Monitor::Monit::Status::Server|#Monitor::Monit::Status::Server> object that describes
-the parameters of the C<monit> daemon.
+This returns a
+L<Monitor::Monit::Status::Server|#Monitor::Monit::Status::Server> object
+that describes the parameters of the C<monit> daemon.
 
 =head1 TYPES
 
