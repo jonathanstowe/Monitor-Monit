@@ -202,15 +202,27 @@ This will turn off any alerts and auto restart that may be configured.
 
 =head3 attribute name
 
+The name of the operating system as reported. For example C<Linux>.
+
 =head3 attribute version
+
+The version of the operating system kernel as reported by C<uname>.
 
 =head3 attribute machine
 
+The architecture of the processor as would be reported by C<uname>.
+
 =head3 attribute cpu
+
+The number of CPU cores reported by the system.
 
 =head3 attribute memory
 
+The amount of memory in bytes.
+
 =head3 attribute swap
+
+The amount of swap space in bytes.
 
 =head2 Monitor::Monit::Status::Server
 
