@@ -22,6 +22,8 @@ if check-socket($port, $host) {
     lives-ok { $status = $mon.status }, "get status";
     isa-ok $status, Monitor::Monit::Status, "got the right thing back";
 
+    isa-ok $status.platform, Monitor::Monit::Status::Platform, 'platform is the right thing';
+
     for $status.service -> $service {
         does-ok $service, Monitor::Monit::ServiceWrapper, "the service  { $service.name } has the role";
         isa-ok $service, Monitor::Monit::Status::Service, "and it's still the right sort of object";
