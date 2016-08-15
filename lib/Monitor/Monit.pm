@@ -226,23 +226,63 @@ The amount of swap space in bytes.
 
 =head2 Monitor::Monit::Status::Server
 
+This class represents the running monit instance.
+
 =head3 attribute id
+
+A unique identifier string for the C<monit> instance.
 
 =head3 attribute incarnation
 
 =head3 attribute version
 
+A I<Version> object representing the running monit server.
+
 =head3 attribute uptime
+
+A I<Duration> object representing the time that the monit daemon has been
+running.
 
 =head3 attribute poll
 
+A I<Duration> object representing the default time between the service 
+checks.
+
 =head3 attribute startdelay
+
+A I<Duration> object representing delay between the program being started
+and the first data being available.  It defaults to 0.0
 
 =head3 attribute localhostname
 
+The local hostname of the host the monit daemon is running on.  This is
+likely to be unqualified.
+
 =head3 attribute controlfile
 
+The path to the control file for the monit instance.
+
 =head3 attribute httpd
+
+An Monitor::Monit::Status::Server::Httpd object representing the
+http server that is used to communicate with the monit daemon. It has
+the following attributes:
+
+=head4 address
+
+The IP address to which the http server is bound to, this may for instance
+be '127.0.0.1' if it is only listening for local connections, '0.0.0.0'
+if it is listening on all the interfaces, or a specific address.
+
+
+=head4 port
+
+The integer port number the server is listening on (and to which you are
+connecting.)
+
+=head4 ssl
+
+A boolean to indicate whether it is an SSL connection.
 
 =end pod
 
