@@ -14,3 +14,4 @@ install:
     - sudo apt-get install monit
     - sudo sed -i -e 's/startup=0/startup=1/' /etc/default/monit
     - sudo service monit start
+    - sudo monit status
