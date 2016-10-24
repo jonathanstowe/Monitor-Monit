@@ -1,0 +1,16 @@
+sudo: required
+
+language: perl6
+
+perl6:
+    - latest
+
+env:
+    PATH=$PATH:$HOME/silan/bin
+
+install:
+    - rakudobrew build-panda
+    - panda --notests installdeps .
+    - sudo apt-get install monit
+    - sudo sed -i -e 's/startup=0/startup=1/' /etc/default/monit
+    - sudo service monit start
