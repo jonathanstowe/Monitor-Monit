@@ -2,6 +2,8 @@
 
 Provide an interface to the monit monitoring daemon
 
+[![Build Status](https://travis-ci.org/jonathanstowe/Monitor-Monit.svg?branch=master)](https://travis-ci.org/jonathanstowe/Monitor-Monit)
+
 ## Synopsis
 
 ```perl6
