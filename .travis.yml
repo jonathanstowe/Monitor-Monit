@@ -12,6 +12,6 @@ install:
     - rakudobrew build-panda
     - panda --notests installdeps .
     - sudo apt-get install monit
-    - sudo echo "set httpd port 2812 and use address 0.0.0.0  allow admin:monit" >> /etc/monit/monitrc
+    - sudo sed -i -e '$ a \set httpd port 2812 and use address 0.0.0.0 allow admin:monit' /etc/monit/monitrc
     - sudo service monit restart
     - sudo monit status
