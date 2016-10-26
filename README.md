@@ -14,7 +14,7 @@ use Monitor::Monit;
 my $mon = Monitor::Monit.new;
 
 for $mon.service -> $service {
-	say $service.name, " is ", $sevice.status-name;
+	say $service.name, " is ", $service.status-name;
 }
 
 ```
