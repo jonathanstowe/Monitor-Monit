@@ -317,7 +317,7 @@ class Monitor::Monit {
         has Str $!base-url;
 
 
-        method base-url() returns Str {
+        method base-url( --> Str ) {
             if not $!base-url.defined {
                 $!base-url = 'http' ~ ($!secure ?? 's' !! '') ~ '://' ~ $!host ~ ':' ~ $!port.Str ~ '{/path*}{?params*}';
             }
@@ -326,7 +326,7 @@ class Monitor::Monit {
 
         has URI::Template $!base-template;
 
-        method base-template() returns URI::Template handles <process> {
+        method base-template( --> URI::Template ) handles <process> {
             if not $!base-template.defined {
                 $!base-template = URI::Template.new(template => self.base-url);
             }
@@ -336,13 +336,13 @@ class Monitor::Monit {
 
         proto method get(|c) { * }
 
-        multi method get(:$path!, :$params, *%headers) returns MonitResponse {
+        multi method get(:$path!, :$params, *%headers --> MonitResponse ) {
             self.request(GET(self.process(:$path, :$params), |%!default-headers, |%headers)) but MonitResponse;
         }
 
         proto method post(|c) { * }
 
-        multi method post(:$path!, :$params, Str :$content, :%form, *%headers) returns MonitResponse {
+        multi method post(:$path!, :$params, Str :$content, :%form, *%headers --> MonitResponse ) {
             if %form {
                 # Need to force this here
                 my %h = Content-Type => 'application/x-www-form-urlencoded', content-type => 'application/x-www-form-urlencoded';
@@ -361,7 +361,7 @@ class Monitor::Monit {
 
     has UserAgent $.ua;
 
-    method ua() returns UserAgent handles <get put post> {
+    method ua( --> UserAgent ) handles <get put post> {
         if not $!ua.defined {
             $!ua = UserAgent.new(:$!host, :$!port, :$!secure, :$!username, :$!password);
             $!ua.auth($!username, $!password);
@@ -372,10 +372,10 @@ class Monitor::Monit {
     enum ServiceType <Filesystem Directory File Process Host System Fifo State>;
 
     class Status does XML::Class[xml-element => 'monit'] {
-        sub duration-in(Str $v) returns Duration {
+        sub duration-in(Str $v --> Duration ) {
             $v.defined ?? Duration.new(Int($v)) !! Duration;
         }
-        sub version-in(Str $v) returns Version {
+        sub version-in(Str $v --> Version ) {
             Version.new($v);
         }
         class Server does XML::Class[xml-element => 'server'] {
@@ -408,7 +408,7 @@ class Monitor::Monit {
             my @status-names = ("Accessible", "Accessible", "Accessible", "Running", "Online with all services", "Running", "Accessible", "Status ok", "UP");
 
             # TODO: Calculate the correct "failed" string from status-hint
-            method status-name() returns Str {
+            method status-name( --> Str ) {
                 self.status == 0 ?? @status-names[self.type] !! 'Failed';
             }
 
@@ -494,7 +494,7 @@ class Monitor::Monit {
         has $.code is required;
         has $.status-line is required;
 
-        method message() {
+        method message( --> Str ) {
             "HTTP request failed : { $!code } {$!status-line}";
         }
     }
@@ -502,7 +502,7 @@ class Monitor::Monit {
     role ServiceWrapper[UserAgent $ua] {
         has UserAgent $!ua handles <get put post security-token> = $ua;
 
-        method command(Action $action) returns Bool {
+        method command(Action $action --> Bool ) {
             my Bool $rc = False;
             my %form = action => $action.Str;
 
@@ -516,25 +516,25 @@ class Monitor::Monit {
             $rc;
         }
 
-        method stop() {
+        method stop( --> Bool ) {
             self.command(Stop);
         }
-        method start() {
+        method start( --> Bool ) {
             self.command(Start);
         }
-        method restart() {
+        method restart( --> Bool ) {
             self.command(Restart);
         }
-        method monitor() {
+        method monitor( --> Bool ) {
             self.command(Monitor);
         }
-        method unmonitor() {
+        method unmonitor( --> Bool ) {
             self.command(Unmonitor);
         }
     }
 
 
-    method status() returns Status handles <service platform server> {
+    method status( --> Status ) handles <service platform server> {
         my Status $status;
 
         if my $resp = self.get(path => ['_status'], params => format => 'xml') {
