@@ -318,19 +318,13 @@ class Monitor::Monit {
 
 
         method base-url( --> Str ) {
-            if not $!base-url.defined {
-                $!base-url = 'http' ~ ($!secure ?? 's' !! '') ~ '://' ~ $!host ~ ':' ~ $!port.Str ~ '{/path*}{?params*}';
-            }
-            $!base-url;
+            $!base-url //= 'http' ~ ($!secure ?? 's' !! '') ~ '://' ~ $!host ~ ':' ~ $!port.Str ~ '{/path*}{?params*}';
         }
 
         has URI::Template $!base-template;
 
         method base-template( --> URI::Template ) handles <process> {
-            if not $!base-template.defined {
-                $!base-template = URI::Template.new(template => self.base-url);
-            }
-            $!base-template;
+            $!base-template //= URI::Template.new(template => self.base-url);
         }
 
 
@@ -362,11 +356,11 @@ class Monitor::Monit {
     has UserAgent $.ua;
 
     method ua( --> UserAgent ) handles <get put post> {
-        if not $!ua.defined {
-            $!ua = UserAgent.new(:$!host, :$!port, :$!secure, :$!username, :$!password);
-            $!ua.auth($!username, $!password);
+        $!ua //= do {
+            my $ua = UserAgent.new(:$!host, :$!port, :$!secure, :$!username, :$!password);
+            $ua.auth($!username, $!password);
+            $ua;
         }
-        $!ua;
     }
 
     enum ServiceType <Filesystem Directory File Process Host System Fifo State>;
