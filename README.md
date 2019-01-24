@@ -70,4 +70,4 @@ This is free software.
 
 Please see the [LICENCE](LICENCE) file in this directory.
 
-© Jonathan Stowe 2016, 2017
+© Jonathan Stowe 2016 - 2019
