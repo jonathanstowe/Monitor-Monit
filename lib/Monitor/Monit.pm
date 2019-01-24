@@ -353,6 +353,10 @@ class Monitor::Monit {
             }
         }
 
+        method security-token( --> Str ) {
+            self.cookies.cookies.grep(*.name eq 'securitytoken').map(*.value).first // Str;
+        }
+
     }
 
     has UserAgent $.ua;
@@ -496,11 +500,16 @@ class Monitor::Monit {
     }
 
     role ServiceWrapper[UserAgent $ua] {
-        has UserAgent $!ua handles <get put post> = $ua;
+        has UserAgent $!ua handles <get put post security-token> = $ua;
 
         method command(Action $action) returns Bool {
             my Bool $rc = False;
             my %form = action => $action.Str;
+
+            if self.security-token -> $t {
+                %form<securitytoken> = $t;
+            }
+
             if my $resp = self.post(path => [ self.name ], :%form  ) {
                 $rc = $resp.is-success;
             }
@@ -539,7 +548,5 @@ class Monitor::Monit {
         }
         $status;
     }
-
-
 }
 # vim: expandtab shiftwidth=4 ft=perl6
