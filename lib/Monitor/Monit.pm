@@ -531,7 +531,7 @@ class Monitor::Monit {
     method status( --> Status ) handles <service platform server> {
         my Status $status;
 
-        if my $resp = self.get(path => ['_status'], params => format => 'xml') {
+        if my $resp = self.get(path => ['_status'], params => format => 'xml', Content-Type => 'application/xml' ) {
             if $resp.is-success {
                 $status = Status.from-xml($resp.content);
                 $= $_ does ServiceWrapper[$!ua] for $status.service;
