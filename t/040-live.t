@@ -11,7 +11,7 @@ my $port        = (%*ENV<MONIT_TEST_PORT> // 2812).Int;
 my $username    = %*ENV<MONIT_TEST_USER> // 'admin';
 my $password    = %*ENV<MONIT_TEST_PASS> // 'monit';
 
-if check-socket($port, $host) {
+if %*ENV<MONIT_TEST_LIVE> && check-socket($port, $host) {
     pass "got monit daemon";
     my $mon;
     lives-ok { $mon = Monitor::Monit.new(:$host, :$port, :$username, :$password) }, "new with credentials";
