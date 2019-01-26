@@ -11,3 +11,4 @@ install:
     - sudo sed -i -e '$ a \set httpd port 2812 and use address 0.0.0.0 allow admin:monit' /etc/monit/monitrc
     - sudo service monit restart
     - sudo monit status
+    - sudo monit --version

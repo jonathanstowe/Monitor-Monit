@@ -537,7 +537,7 @@ class Monitor::Monit {
                 $= $_ does ServiceWrapper[$!ua] for $status.service;
             }
             else {
-                X::HTTP.new(code => $resp.code, status-line => $resp.status-line).throw;
+                X::Monit::HTTP.new(code => $resp.code, status-line => $resp.status-line).throw;
             }
         }
         $status;
