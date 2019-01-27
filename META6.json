@@ -1,6 +1,6 @@
 {
   "name": "Monitor::Monit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "auth": "github:jonathanstowe",
   "api": "1.0",
   "description": "Provide an interface to the monit monitoring daemon",
