@@ -31,9 +31,10 @@ This provides a mechanism to interact with its http api.
 In order for this to be useful you will need to have 'monit' installed,
 most Linux distributions provide it as a package.
 
-The tests will attempt to connect to a monit daemon on the local host
-with the default port and credentials, if there is no connection then
-the online tests will be skipped.
+If you set the enviromment variable ```MOMIT_TEST_LIVE``` the tests will
+attempt to connect to a monit daemon on the local host with the default
+port and credentials, if there is no connection then the online tests
+will be skipped.
 
 By default the monit daemon will be configured to only listen for local
 connections on the loopback interface, if you wish to work with a remote
@@ -63,6 +64,10 @@ Other installers may become available in the future.
 I've only tested this against my particular configuration of monit so it is
 entirely possible that I have missed something that is important to you,
 please feel to make suggestions at https://github.com/jonathanstowe/Monitor-Monit/issues
+
+It is possible that it may not work properly with certain older versions of
+monit though I can't pinpoint which versions and it's difficult to test so
+any help with that would be appreciated.
 
 ## Copyright and Licence
 
