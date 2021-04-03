@@ -1,15 +1,16 @@
 {
   "name": "Monitor::Monit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "auth": "github:jonathanstowe",
   "api": "1.0",
   "description": "Provide an interface to the monit monitoring daemon",
-  "source-url": "git://github.com/jonathanstowe/Monitor-Monit.git",
+  "source-url": "https://github.com/jonathanstowe/Monitor-Monit.git",
   "support": {
-    "source": "git://github.com/jonathanstowe/Monitor-Monit.git",
+    "source": "https://github.com/jonathanstowe/Monitor-Monit.git",
     "bugtracker": "https://github.com/jonathanstowe/Monitor-Monit/issues"
   },
   "perl": "6.*",
+  "raku": "6.*",
   "resources": [ ],
   "build-depends": [ ],
   "depends": [
@@ -33,5 +34,5 @@
   "authors": [
     "Jonathan Stowe <jns+gh@gellyfish.co.uk>"
   ],
-  "meta-version": "0"
+  "meta-version": "1"
 }

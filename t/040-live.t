@@ -1,4 +1,4 @@
-#!perl6
+#!raku
 
 use v6;
 
@@ -6,7 +6,7 @@ use Test;
 use CheckSocket;
 use Monitor::Monit;
 
-my $host        = %*ENV<MONIT_TEST_HOST> // 'localhost';
+my $host        = %*ENV<MONIT_TEST_HOST> // '127.0.0.1';
 my $port        = (%*ENV<MONIT_TEST_PORT> // 2812).Int;
 my $username    = %*ENV<MONIT_TEST_USER> // 'admin';
 my $password    = %*ENV<MONIT_TEST_PASS> // 'monit';
@@ -46,4 +46,4 @@ else {
 
 
 done-testing;
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=raku
