@@ -49,7 +49,7 @@
           "name": "Monitor",
           "children": [
             {
-              "name": "Monit.pm",
+              "name": "Monit.rakumod",
               "type": "file"
             }
           ]

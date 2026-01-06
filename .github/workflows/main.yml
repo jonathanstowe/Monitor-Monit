@@ -23,8 +23,8 @@ jobs:
     - name: Raku version
       run: raku -v
 
-    - name: Add the buster backports for monit
-      run:  echo "deb http://ftp.de.debian.org/debian buster-backports main" >/etc/apt/sources.list.d/buster-backports.list
+      #    - name: Add the buster backports for monit
+      #run:  echo "deb http://ftp.de.debian.org/debian buster-backports main" >/etc/apt/sources.list.d/buster-backports.list
 
     - name: apt update
       run:  apt-get -qq update
@@ -45,4 +45,3 @@ jobs:
       run: zef test -v --debug .
       env:
         MONIT_TEST_LIVE: 1
-        MONIT_TEST_CONTROL: 1

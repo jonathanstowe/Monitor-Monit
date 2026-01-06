@@ -14,7 +14,7 @@
   "authors": [
     "Jonathan Stowe <jns+gh@gellyfish.co.uk>"
   ],
-  "version": "0.0.5",
+  "version": "0.0.6",
   "api": "1.0",
   "depends": [
     "HTTP::UserAgent",
@@ -22,7 +22,7 @@
     "XML::Class"
   ],
   "provides": {
-    "Monitor::Monit": "lib/Monitor/Monit.pm"
+    "Monitor::Monit": "lib/Monitor/Monit.rakumod"
   },
   "source-url": "https://github.com/jonathanstowe/Monitor-Monit.git",
   "license": "Artistic-2.0",
